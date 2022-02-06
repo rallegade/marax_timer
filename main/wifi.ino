@@ -3,6 +3,8 @@ int lastHxTemperature = NULL;
 int lastSteamTemperature = NULL;
 long lastTimerStartMillis = 0;
 bool lastTimerStarted = false;
+bool lastMachineHeating = false;
+bool lastMachineHeatingBoost = false;
 
 void setupWifi() { 
   WiFi.begin(SSID, PSK);
@@ -15,9 +17,14 @@ void setupWifi() {
 void updateWifi() {
   if (!client.connected()) {
     while (!client.connected()) {
-      client.connect("marax");
-      
-      delay(100);
+      if ( MQTT_USER != "" && MQTT_PASSWORD != "" ) {
+        client.connect("marax", MQTT_USER, MQTT_PASSWORD);
+        delay(100);
+        }
+      else {
+        client.connect("marax");
+        delay(100);
+      }
     }
   }
   
@@ -30,12 +37,14 @@ void updateWifi() {
 
   if (lastHxTemperature != hxTemperature) {
     lastHxTemperature = hxTemperature;
-    broadcastHxTemperature();
+    if (hxTemperature > 15 && hxTemperature < 115 && abs(hxTemperature - lastHxTemperature) < 3) {
+    broadcastHxTemperature();}
   }
 
   if (lastSteamTemperature != steamTemperature) {
     lastSteamTemperature = steamTemperature;
-    broadcastSteamTemperature();
+    if (steamTemperature > 15 && steamTemperature < 250 && abs(steamTemperature - lastSteamTemperature) < 3) {
+    broadcastSteamTemperature();}
   }
 
   if (lastTimerStartMillis != timerStartMillis && ((millis() - timerStartMillis ) / 1000) > 15 && timerStarted == false && timerCount > 0) {
@@ -45,7 +54,17 @@ void updateWifi() {
 
   if (lastTimerStarted != timerStarted) {
     lastTimerStarted = timerStarted;
-    brodcastPump();
+    broadcastPump();
+  }
+  
+  if (lastMachineHeating != machineHeating) {
+    lastMachineHeating = machineHeating;
+    broadcastMachineHeating();
+  }
+
+  if (lastMachineHeatingBoost != machineHeatingBoost) {
+    lastMachineHeatingBoost = machineHeatingBoost;
+    broadcastMachineHeatingBoost();
   }
 }
 
@@ -69,10 +88,26 @@ void broadcastShot() {
   client.publish("/marax/shot", String(timerCount).c_str());
 }
 
-void brodcastPump() {
+void broadcastPump() {
   if (timerStarted) {
     client.publish("/marax/pump", "on");
   } else {
-    client.publish("/marax/power", "off");
+    client.publish("/marax/pump", "off");
+  }
+}
+
+void broadcastMachineHeating () {
+  if (machineHeating) {
+    client.publish("/marax/machineheating", "on");
+  } else {
+    client.publish("/marax/machineheating", "off");
+  }
+}
+
+void broadcastMachineHeatingBoost () {
+  if (machineHeatingBoost) {
+    client.publish("/marax/machineheatingboost", "on");
+  } else {
+    client.publish("/marax/machineheatingboost", "off");
   }
 }
