@@ -31,12 +31,15 @@ const char* MQTT_USER = "";
 const char* MQTT_PASSWORD = "";
 
 // State
+// set to true/false when using another type of reed sensor
+bool reedOpenSensor = true;
 int timerCount = 0;
 int prevTimerCount = 0;
 bool timerStarted = false;
 long timerStartMillis = 0;
 long timerStopMillis = 0;
 long serialUpdateMillis = 0;
+int pumpInValue = 0;
 
 String machineState;
 bool machineHeating;

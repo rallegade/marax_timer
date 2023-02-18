@@ -21,7 +21,7 @@
 In order to make NodeMCU working with Arduino IDE follow these instructions: [https://www.instructables.com/id/Quick-Start-to-Nodemcu-ESP8266-on-Arduino-IDE/](https://www.instructables.com/id/Quick-Start-to-Nodemcu-ESP8266-on-Arduino-IDE/). If you having troubles insalling the Github dependencies follow this guide: [Installing Arduino Library from GitHub](https://www.baldengineer.com/installing-arduino-library-from-github.html). 
 
 
-This project uses the following dependencies:
+### Dependencies
 
 * [https://github.com/adafruit/Adafruit_SSD1306](https://github.com/adafruit/Adafruit_SSD1306)
 * [https://github.com/adafruit/Adafruit_BusIO](https://github.com/adafruit/Adafruit_BusIO)
@@ -33,7 +33,7 @@ This project uses the following dependencies:
 ## Hardware connections
 
 ### OLED wiring
-You connect the oled display like this:
+Connect the **OLED display** like this:
 ![](https://circuits4you.com/wp-content/uploads/2019/01/NodeMCU_ESP8266_OLED_Display.png)
 
 ### Reed sensor
@@ -44,8 +44,8 @@ You connect the oled display like this:
 
 [Open the underside of the machine](http://www.youtube.com/watch?v=9NL6yeq7sMM) and you will see a [6 pin connector](https://preview.redd.it/mwf5u76b24751.jpg?width=3024&format=pjpg&auto=webp&s=e3af4370ee876cb590f7f007cb0ec9ed29688225).
 
-- Connect pin 3 of the machine (RX) to pin D6 (TX) of nodeMCU
-- Connect pin 4 of the machine (TX) to pin D5 (RX) of nodeMCU 
+- Connect pin 3 of the machine (RX) to pin D6 (TX) of NodeMCU
+- Connect pin 4 of the machine (TX) to pin D5 (RX) of NodeMCU 
 
 > *In case this does not work, change the pins connection (pin 3 to D5 & pin 4 to D6)*
 
@@ -57,9 +57,9 @@ The timer display will power on and off with the MaraX.
 
 When the pump will start, the timer on the screen will also start counting.
 
-When the pump is stopped, the time will remain printed on the screen (if more that 15 seconds have passed) until the next time the pump is activated.
+When the pump is stopped, the time will remain printed on the screen (if more than 15 seconds have passed) until the next time the pump is activated.
 
-The time is not recorded unless 15 seconds have passed because MaraX machine starts the pump by itself from time to time to fill the boiler with water.
+The time is not recorded unless 15 seconds have passed because the MaraX machine starts the pump by itself from time to time to fill the boiler with water.
 
 ### MQTT
 

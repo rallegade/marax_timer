@@ -3,13 +3,18 @@ void setupTimer() {
 }
 
 void updateTimer() {
-  digitalWrite(LED_BUILTIN, digitalRead(PUMP_PIN));
+  if(reedOpenSensor) {
+    pumpInValue = !digitalRead(PUMP_PIN);
+  } else {
+    pumpInValue = digitalRead(PUMP_PIN);
+  }
+  if (!timerStarted && !pumpInValue) {
   if (!timerStarted && !digitalRead(PUMP_PIN)) {
     timerStartMillis = millis();
     timerStarted = true;
     Serial.println("Start pump");
   }
-  if (timerStarted && digitalRead(PUMP_PIN)) {
+  if (timerStarted && pumpInValue) {
     if (timerStopMillis == 0) {
       timerStopMillis = millis();
     }
