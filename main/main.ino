@@ -20,8 +20,8 @@ Adafruit_SSD1306 display(128, 64, &Wire, -1);
 SoftwareSerial mySerial(D5, D6);
 Timer t;
 
-WiFiClient espClient;
-PubSubClient client(espClient);
+WiFiClient MaraxScreen;
+PubSubClient client(MaraxScreen);
 
 // Config
 const char* SSID = "";
