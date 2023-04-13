@@ -36,7 +36,7 @@ void updateSerial() {
     }
   }
   
-  if (millis() - serialUpdateMillis > 5000) {
+  if (millis() - serialUpdateMillis > 6000) {
     serialUpdateMillis = millis();
     memset(receivedChars, 0, numChars);
     Serial.println("Request serial update");
