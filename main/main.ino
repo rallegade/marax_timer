@@ -20,8 +20,8 @@ Adafruit_SSD1306 display(128, 64, &Wire, -1);
 SoftwareSerial mySerial(D5, D6);
 Timer t;
 
-WiFiClient MaraxScreen;
-PubSubClient client(MaraxScreen);
+WiFiClient espClient;
+PubSubClient client(espClient);
 
 // Config
 const char* SSID = "";
@@ -52,30 +52,17 @@ char receivedChars[numChars];
 
 void setup() {
   Serial.begin(9600);
-  
+  if (SSID != "" && PSK != "" && MQTT_BROKER != "") {
+    setupWifi();
+  } else {
+    WiFi.mode(WIFI_OFF);
+  }
+
   setupTimer();
   setupSerial();
   setupDisplay();
   
   t.every(100, render);
-
-  // Set timeout of the wifi connection to 240 seconds
-  unsigned long timeout = 240000; 
-
-  // Start timer
-  unsigned long startTime = millis(); 
-
-  while (millis() - startTime < timeout) {
-    if (SSID != "" && PSK != "" && MQTT_BROKER != "") {
-      setupWifi();
-      break;
-    }
-  }
-
-  // Turn off WiFi if connection cannot be established within timeout period
-  if (WiFi.status() != WL_CONNECTED) {
-    WiFi.mode(WIFI_OFF);
-  }
 }
 
 void loop() {
